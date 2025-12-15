@@ -61,7 +61,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     );
   }
 
-  Widget buildButton(value) {
+  Widget buildButton(dynamic value) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Material(
@@ -85,6 +85,27 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   }
 
   void onBtnTap(String value) {
+    if (value != Btn.dot && int.tryParse(value) == null) {
+      if (operand.isNotEmpty && number2.isNotEmpty) {}
+      operand = value;
+    } else if (number1.isEmpty || operand.isEmpty) {
+      if (value == Btn.dot && number1.contains(Btn.dot)) {
+        return;
+      }
+      if (value == Btn.dot && (number1.isEmpty || number1 == Btn.n0)) {
+        value = "0.";
+      }
+      number1 += value;
+    } else if (number2.isEmpty || operand.isNotEmpty) {
+      if (value == Btn.dot && number2.contains(Btn.dot)) {
+        return;
+      }
+      if (value == Btn.dot && (number2.isEmpty || number2 == Btn.n0)) {
+        value = "0.";
+      }
+      number2 += value;
+    }
+
     setState(() {
       number1 += value;
       if (value == Btn.clr) {
@@ -93,7 +114,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     });
   }
 
-  Color getBtnColor(value) {
+  Color getBtnColor(dynamic value) {
     return [Btn.del, Btn.clr].contains(value)
         ? Colors.blueGrey
         : [
