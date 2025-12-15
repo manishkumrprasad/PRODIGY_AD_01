@@ -13,6 +13,20 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   String operand = "";
   String number2 = "";
 
+  static Color color1 = Colors.black;
+
+  void bgColor(Color ccl) {
+    color1 = ccl;
+  }
+
+  Color checkColor() {
+    if (color1 == Colors.black) {
+      return Colors.white;
+    } else {
+      return Colors.black;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -21,12 +35,32 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       appBar: AppBar(
         title: Text(
           "Calculator",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: checkColor(),
+          ),
         ),
         backgroundColor: Colors.black12,
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              if (color1 == Colors.black) {
+                // color1 = Colors.white;
+                bgColor(Colors.white);
+                setState(() {});
+              } else if (color1 == Colors.white) {
+                // color1 == Colors.black;
+                bgColor(Colors.black);
+                setState(() {});
+              }
+            },
+            icon: Icon(Icons.dark_mode_outlined, size: 25, color: checkColor()),
+          ),
+        ],
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: color1,
       body: SafeArea(
         child: Column(
           children: [
@@ -39,10 +73,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                   padding: const EdgeInsets.all(24),
                   child: Text(
                     number1 + operand + number2,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 48,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      // color: Colors.black,
+                      color: checkColor(),
                     ),
                     textAlign: TextAlign.end,
                   ),
